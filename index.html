@@ -1,89 +1,62 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Admin Charadas</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .box { background: #f1f1f1; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+    input, button { margin-top: 10px; display: block; width: 100%; padding: 8px; }
+    button { cursor: pointer; font-weight: bold; }
+    .green { background: #4CAF50; color: white; border: none; }
+    .blue { background: #2196F3; color: white; border: none; }
+    .orange { background: #ff9800; color: white; border: none; }
+    .red { background: #f44336; color: white; border: none; }
+    .charada-item { background: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 10px; margin-top: 10px; }
+    .botoes { margin-top: 10px; display: flex; gap: 10px; }
+    .total { float: right; margin-top: -30px; }
+    .hidden { display: none; }
+    label { margin-top: 10px; display: block; font-weight: bold; }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex justify-center items-start pt-10">
-  <div class="bg-white p-6 rounded-xl shadow-xl w-full max-w-2xl space-y-6">
+<body>
 
-    <h1 class="text-2xl font-bold text-center">ADMIN CHARADAS</h1>
+  <h1>ADMIN CHARADAS</h1>
 
-    <!-- Adicionar charada -->
-    <div id="addDiv" class="bg-gray-200 p-4 rounded-lg space-y-3">
-      <h2 class="font-semibold">Adicionar nova charada</h2>
-      <input type="text" placeholder="Pergunta" class="w-full p-2 rounded border" />
-      <input type="text" placeholder="Resposta" class="w-full p-2 rounded border" />
-      <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Adicionar</button>
-    </div>
+  <!-- Adicionar nova charada -->
+  <div id="adicionarCharada" class="box">
+    <h3>Adicionar nova charada</h3>
+    <label for="pergunta">Pergunta</label>
+    <input type="text" id="pergunta" placeholder="Digite a pergunta">
+    
+    <label for="resposta">Resposta</label>
+    <input type="text" id="resposta" placeholder="Digite a resposta">
 
-    <!-- Editar charada -->
-    <div id="editDiv" class="bg-gray-200 p-4 rounded-lg space-y-3 hidden">
-      <h2 class="font-semibold">Editar charadas</h2>
-      <input type="text" placeholder="Pergunta" class="w-full p-2 rounded border" />
-      <input type="text" placeholder="Resposta" class="w-full p-2 rounded border" />
-      <div class="flex gap-2">
-        <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Salvar alterações</button>
-        <button onclick="cancelEdit()" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">Cancelar edição</button>
-      </div>
-    </div>
-
-    <hr>
-
-    <!-- Lista de charadas -->
-    <div>
-      <div class="flex justify-between items-center mb-2">
-        <h2 class="font-semibold">Charadas cadastradas:</h2>
-        <div class="bg-gray-300 px-2 py-1 rounded text-sm">3 charadas</div>
-      </div>
-
-      <!-- Charada 1 -->
-      <div class="bg-white p-3 border rounded mb-2">
-        <p><strong>Pergunta:</strong> O que o zero disse para o oito?</p>
-        <p><strong>Resposta:</strong> Que cinto maneiro!</p>
-        <p class="text-xs text-gray-500">Id: 1</p>
-        <div class="flex gap-2 mt-2">
-          <button onclick="editChamada()" class="bg-orange-400 text-white px-3 py-1 rounded hover:bg-orange-500">Editar</button>
-          <button class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Excluir</button>
-        </div>
-      </div>
-
-      <!-- Charada 2 -->
-      <div class="bg-white p-3 border rounded mb-2">
-        <p><strong>Pergunta:</strong> Por que a vaca foi para o espaço?</p>
-        <p><strong>Resposta:</strong> Para conhecer a Via Láctea!</p>
-        <p class="text-xs text-gray-500">Id: 2</p>
-        <div class="flex gap-2 mt-2">
-          <button onclick="editChamada()" class="bg-orange-400 text-white px-3 py-1 rounded hover:bg-orange-500">Editar</button>
-          <button class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Excluir</button>
-        </div>
-      </div>
-
-      <!-- Charada 3 -->
-      <div class="bg-white p-3 border rounded mb-2">
-        <p><strong>Pergunta:</strong> Qual é o cúmulo da lerdeza?</p>
-        <p><strong>Resposta:</strong> Tomar leite condensado e esperar ele engrossar.</p>
-        <p class="text-xs text-gray-500">Id: 3</p>
-        <div class="flex gap-2 mt-2">
-          <button onclick="editChamada()" class="bg-orange-400 text-white px-3 py-1 rounded hover:bg-orange-500">Editar</button>
-          <button class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Excluir</button>
-        </div>
-      </div>
-    </div>
+    <button class="green" onclick="adicionar()">Adicionar</button>
   </div>
 
-  <script>
-    function editChamada() {
-      document.getElementById('addDiv').classList.add('hidden');
-      document.getElementById('editDiv').classList.remove('hidden');
-    }
+  <!-- Editar charada -->
+  <div id="editarCharada" class="box hidden">
+    <h3>Editar charada</h3>
+    <label for="editarPergunta">Pergunta</label>
+    <input type="text" id="editarPergunta">
 
-    function cancelEdit() {
-      document.getElementById('editDiv').classList.add('hidden');
-      document.getElementById('addDiv').classList.remove('hidden');
-    }
-  </script>
+    <label for="editarResposta">Resposta</label>
+    <input type="text" id="editarResposta">
+
+    <button class="blue" onclick="salvarEdicao()">Salvar alterações</button>
+    <button class="orange" onclick="cancelarEdicao()">Cancelar edição</button>
+  </div>
+
+  <hr>
+
+  <!-- Lista de charadas -->
+  <h3>Charadas cadastradas:</h3>
+  <span class="total">Total: <span id="totalCharadas">0</span></span>
+
+  <div id="listaCharadas"></div>
+
+  <script src="script.js"></script>
+
 </body>
 </html>
